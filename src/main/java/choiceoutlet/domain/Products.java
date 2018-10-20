@@ -20,13 +20,7 @@ public class Products {
 	
 	@Id
 	@Column(name="bar_code", unique=true, nullable=false)
-	String bar_code;
-	
-	@Column(name="lot_number", nullable=false)
-	int lot_number;
-	
-	@Column(name="quantity", nullable=false)
-	int quantity;
+	int bar_code;
 	
 	@Column(name="retail_price", nullable=false)
 	BigDecimal retail_price;
@@ -37,11 +31,11 @@ public class Products {
 	@Column(name="extra_cost", nullable=false)
 	BigDecimal extra_cost;
 	
+	@Column(name="product_name", nullable=false)
+	String product_name;
+	
 	@Column(name="details", nullable=false)
 	String details;
-	
-	@Column(name="category", nullable=false)
-	String category;
 	
 	@Column(name="location", nullable=false)
 	String location;
@@ -52,134 +46,128 @@ public class Products {
 	@Column(name="dimension", nullable=false)
 	String dimension;
 	
-	@Column(name="remaining_quantity", nullable=false)
-	int remaining_quantity;
-
-	public Products(String upc_number, String bar_code, int lot_number, int quantity, BigDecimal retail_price,
-			BigDecimal cost, BigDecimal extra_cost, String details, String category, String location, String condition, String dimension, int remaining_quantity) {
-		super();
-		this.upc_number = upc_number;
-		this.bar_code = bar_code;
-		this.lot_number = lot_number;
-		this.quantity = quantity;
-		this.retail_price = retail_price;
-		this.cost = cost;
-		this.extra_cost = extra_cost;
-		this.details = details;
-		this.category = category;
-		this.location = location;
-		this.condition = condition;
-		this.dimension = dimension;
-		this.remaining_quantity = remaining_quantity;
-	}
+	@Column(name="cat_id", nullable=false)
+	int cat_id;
+	
+	@Column(name="quantity", nullable=false)
+	int quantity;
 
 	public Products() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-public String getUpc_number() {
-	return upc_number;
-}
+	public Products(String upc_number, int bar_code, BigDecimal retail_price, BigDecimal cost, BigDecimal extra_cost,
+			String product_name, String details, String location, String condition, String dimension, int cat_id, int quantity) {
+		super();
+		this.upc_number = upc_number;
+		this.bar_code = bar_code;
+		this.retail_price = retail_price;
+		this.cost = cost;
+		this.extra_cost = extra_cost;
+		this.product_name = product_name;
+		this.details = details;
+		this.location = location;
+		this.condition = condition;
+		this.dimension = dimension;
+		this.cat_id = cat_id;
+		this.quantity = quantity;
+	}
 
-public void setUpc_number(String upc_number) {
-	this.upc_number = upc_number;
-}
+	public String getUpc_number() {
+		return upc_number;
+	}
 
-public String getBar_code() {
-	return bar_code;
-}
+	public void setUpc_number(String upc_number) {
+		this.upc_number = upc_number;
+	}
 
-public void setBar_code(String bar_code) {
-	this.bar_code = bar_code;
-}
+	public int getBar_code() {
+		return bar_code;
+	}
 
-public int getLot_number() {
-	return lot_number;
-}
+	public void setBar_code(int bar_code) {
+		this.bar_code = bar_code;
+	}
 
-public void setLot_number(int lot_number) {
-	this.lot_number = lot_number;
-}
+	public BigDecimal getRetail_price() {
+		return retail_price;
+	}
 
-public int getQuantity() {
-	return quantity;
-}
+	public void setRetail_price(BigDecimal retail_price) {
+		this.retail_price = retail_price;
+	}
 
-public void setQuantity(int quantity) {
-	this.quantity = quantity;
-}
+	public BigDecimal getCost() {
+		return cost;
+	}
 
-public BigDecimal getRetail_price() {
-	return retail_price;
-}
+	public void setCost(BigDecimal cost) {
+		this.cost = cost;
+	}
 
-public void setRetail_price(BigDecimal retail_price) {
-	this.retail_price = retail_price;
-}
+	public BigDecimal getExtra_cost() {
+		return extra_cost;
+	}
 
-public BigDecimal getCost() {
-	return cost;
-}
+	public void setExtra_cost(BigDecimal extra_cost) {
+		this.extra_cost = extra_cost;
+	}
 
-public void setCost(BigDecimal cost) {
-	this.cost = cost;
-}
+	public String getProduct_name() {
+		return product_name;
+	}
 
-public BigDecimal getExtra_cost() {
-	return extra_cost;
-}
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
 
-public void setExtra_cost(BigDecimal extra_cost) {
-	this.extra_cost = extra_cost;
-}
+	public String getDetails() {
+		return details;
+	}
 
-public String getDetails() {
-	return details;
-}
+	public void setDetails(String details) {
+		this.details = details;
+	}
 
-public void setDetails(String details) {
-	this.details = details;
-}
+	public String getLocation() {
+		return location;
+	}
 
-public String getCategory() {
-	return category;
-}
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
-public void setCategory(String category) {
-	this.category = category;
-}
+	public String getCondition() {
+		return condition;
+	}
 
-public String getLocation() {
-	return location;
-}
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
 
-public void setLocation(String location) {
-	this.location = location;
-}
+	public String getDimension() {
+		return dimension;
+	}
 
-public String getCondition() {
-	return condition;
-}
+	public void setDimension(String dimension) {
+		this.dimension = dimension;
+	}
 
-public void setCondition(String condition) {
-	this.condition = condition;
-}
+	public int getCat_id() {
+		return cat_id;
+	}
 
-public String getDimension() {
-	return dimension;
-}
+	public void setCat_id(int cat_id) {
+		this.cat_id = cat_id;
+	}
 
-public void setDimension(String dimension) {
-	this.dimension = dimension;
-}
+	public int getQuantity() {
+		return quantity;
+	}
 
-public int getRemaining_quantity() {
-	return remaining_quantity;
-}
-
-public void setRemaining_quantity(int remaining_quantity) {
-	this.remaining_quantity = remaining_quantity;
-}
-
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	
 }

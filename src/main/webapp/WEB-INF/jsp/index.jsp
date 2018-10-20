@@ -23,6 +23,9 @@
 
     <!-- Custom styles for this template -->
     <link href="<c:url value="/resources/css/agency.min.css" />" rel="stylesheet">
+    
+    <!-- Handlebars Templates -->
+    <script src="<c:url value="/resources/js/handlebars.min.js" />"></script>
 	
 	<!-- Core Style CSS OTHER-->
     <link href="<c:url value="/resources/css/core-style.css" />" rel="stylesheet">
@@ -30,8 +33,25 @@
   </head>
 
   <body id="page-top">
-
-    <!-- Navigation -->
+	<script id="categories" type="text/x-handlebars-template">
+		{{#each this}}
+          <div class="col-md-4 col-sm-6 portfolio-item" onclick="navigateToProduct(this, event)">
+            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
+              <div class="portfolio-hover">
+                <div class="portfolio-hover-content">
+                  <i class="fa fa-plus fa-3x"></i>
+                </div>
+              </div>
+				 <img class="img-fluid" src="<c:url value="/resources/img/portfolio/04-thumbnail.jpg" />" alt="">
+            </a>
+            <div class="portfolio-caption">
+              <h4>{{category}}</h4>
+            </div>
+          </div>
+		{{/each}}
+	</script>
+	
+	<!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
       <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="#page-top">Choice Outlet</a>
@@ -77,85 +97,8 @@
           <div class="col-lg-12 text-center">
             <h2 class="section-heading text-uppercase">Categories</h2>
           </div>
-        <div class="row">
-          <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="<c:url value="/resources/img/portfolio/04-thumbnail.jpg" />" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <h4>Electronics</h4>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="<c:url value="/resources/img/portfolio/02-thumbnail.jpg" />" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <h4>Furniture</h4>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="<c:url value="/resources/img/portfolio/03-thumbnail.jpg" />" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <h4>Gadgets</h4>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal4">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="<c:url value="/resources/img/portfolio/01-thumbnail.jpg" />" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <h4>Outdoor Essentials</h4>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal5">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="<c:url value="/resources/img/portfolio/05-thumbnail.jpg" />" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <h4>Home Decoration</h4>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6 portfolio-item">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal6">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-              <img class="img-fluid" src="<c:url value="/resources/img/portfolio/06-thumbnail.jpg" />" alt="">
-            </a>
-            <div class="portfolio-caption">
-              <h4>Accessories</h4>
-            </div>
-          </div>
+        <div id="categories-list" class="row">
+          
         </div>
       </div>
     </div>
@@ -313,5 +256,36 @@
     <script src="<c:url value="/resources/js/agency.min.js" />"></script>
 
   </body>
-
+	<script>
+	var source   = document.getElementById("categories").innerHTML;
+	var template = Handlebars.compile(source);
+		$(document).ready(function(){
+			
+			console.log("loaded");
+	        $.ajax({ type: "GET",
+	        		 contentType: "application/json",
+	                 url: "/choiceoutlet/products",
+	                 async: false,
+	                 dataType: 'json',
+	                 cache: false,
+	                 timeout: 600000,
+	                 success : function(data)
+	                 {	
+	                	 var flags = [], output = [], l = data.length, i;
+		                 for( i=0; i<l; i++) {
+		                	    if( flags[data[i].category]) continue;
+		                	    flags[data[i].category] = true;
+		                	    output.push(data[i]);
+		                	}
+	                		 $('#categories-list').append(template(output));
+	               	 }
+	        });
+	        
+		});
+		
+        function navigateToProduct (e, e1) {
+        	var selectedCategory = $(e).children("div .portfolio-caption").children().text();
+        	window.location.href='/choiceoutlet/productList?category='+selectedCategory;
+        }
+</script>
 </html>
