@@ -45,7 +45,7 @@
 				 <img class="img-fluid" src="<c:url value="/resources/img/portfolio/04-thumbnail.jpg" />" alt="">
             </a>
             <div class="portfolio-caption">
-              <h4>{{category}}</h4>
+              <h4 value="{{cat_name}}">{{cat_name}}</h4>
             </div>
           </div>
 		{{/each}}
@@ -257,6 +257,7 @@
 
   </body>
 	<script>
+	var categoriesList = new Array();
 	var source   = document.getElementById("categories").innerHTML;
 	var template = Handlebars.compile(source);
 		$(document).ready(function(){
@@ -264,17 +265,18 @@
 			console.log("loaded");
 	        $.ajax({ type: "GET",
 	        		 contentType: "application/json",
-	                 url: "/choiceoutlet/products",
+	                 url: "/choiceoutlet/categories",
 	                 async: false,
 	                 dataType: 'json',
 	                 cache: false,
 	                 timeout: 600000,
 	                 success : function(data)
 	                 {	
+	                	 categoriesList = data;              	 
 	                	 var flags = [], output = [], l = data.length, i;
 		                 for( i=0; i<l; i++) {
-		                	    if( flags[data[i].category]) continue;
-		                	    flags[data[i].category] = true;
+		                	    if( flags[data[i].cat_name]) continue;
+		                	    flags[data[i].cat_name] = true;
 		                	    output.push(data[i]);
 		                	}
 	                		 $('#categories-list').append(template(output));
@@ -284,8 +286,15 @@
 		});
 		
         function navigateToProduct (e, e1) {
-        	var selectedCategory = $(e).children("div .portfolio-caption").children().text();
-        	window.location.href='/choiceoutlet/productList?category='+selectedCategory;
+        	var selectedCatId;
+        	var selectedCategory = String($(e).children("div .portfolio-caption").children().attr("value"));
+        	console.log(selectedCategory);
+        	for(var i=0; i<categoriesList.length; i++) {
+        		if((categoriesList[i].cat_name == String(selectedCategory)) == true) {
+        			selectedCatId = categoriesList[i].cat_id;
+        		}
+        	}
+        	window.location.href='/choiceoutlet/productList?categoryId='+selectedCatId+ '&categoryName='+selectedCategory;
         }
 </script>
 </html>

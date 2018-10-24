@@ -15,7 +15,7 @@ public class Categories {
 	
 	@Id
 	@Column(name="cat_id", nullable=false)
-	int cat_id;
+	Long cat_id;
 	
 	@Column(name="cat_name", nullable=false)
 	String cat_name;
@@ -25,17 +25,17 @@ public class Categories {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Categories(int cat_id, String cat_name) {
+	public Categories(Long cat_id, String cat_name) {
 		super();
 		this.cat_id = cat_id;
 		this.cat_name = cat_name;
 	}
 
-	public int getCat_id() {
+	public Long getCat_id() {
 		return cat_id;
 	}
 
-	public void setCat_id(int cat_id) {
+	public void setCat_id(Long cat_id) {
 		this.cat_id = cat_id;
 	}
 

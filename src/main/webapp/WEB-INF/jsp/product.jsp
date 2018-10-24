@@ -29,27 +29,39 @@
 	
 	<!-- Core Style CSS OTHER-->
 	    <link href="<c:url value="/resources/css/core-style.css" />" rel="stylesheet">
+	<style>
+	/* Product Price */
+	.product-price {
+		display: flex;
+		align-items: center;
+	}
+	
+	.product-price span {
+		font-size: 26px;
+		font-weight: 300;
+		color: #43474D;
+		margin-right: 20px;
+	}
+	
+	.cart-btn {
+		display: inline-block;
+		background-color: #7DC855;
+		border-radius: 6px;
+		font-size: 16px;
+		color: #FFFFFF;
+		text-decoration: none;
+		padding: 12px 30px;
+		transition: all .5s;
+	}
+	
+	.cart-btn:hover {
+		background-color: #64af3d;
+	}
+	</style>
 </head>
 
   <body id="page-top">
-  	
-	<script id="products" type="text/x-handlebars-template">
-		{{#each this}}
-          <div class="col-md-4 col-sm-6 portfolio-item" onclick="toProduct(this, event)" value="{{bar_code}}">
-            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
-              <div class="portfolio-hover">
-                <div class="portfolio-hover-content">
-                  <i class="fa fa-plus fa-3x"></i>
-                </div>
-              </div>
-				 <img class="img-fluid" src="<c:url value="/resources/img/portfolio/04-thumbnail.jpg" />" alt="">
-            </a>
-            <div class="portfolio-caption" value="{{bar_code}}">
-              <h4>{{product_name}}</h4>
-            </div>
-          </div>
-		{{/each}}
-	</script>
+	<!-- MODEL -->
 	
 	<!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
@@ -72,19 +84,37 @@
           </ul>
         </div>
       </div>
-    </nav>
-	
-    <!-- Portfolio Grid -  check portfolio JS and CSS -->
-    <div id="portfolio" style="padding: 100px; /*background-color: #cc2d2d*/"> 
-      <div class="container">
-		<div class="col-lg-12 text-center">
-	  		<!-- category name added here -->
+    </nav>	
+	<!-- Will be hidden on load and will display a product in details	 -->
+	<div id="product" style="padding: 100px;">
+		<div class="container">
+			<!-- Featured Project Row -->
+			<div class="row align-items-center no-gutters mb-4 mb-lg-5">
+				<div class="col-xl-8 col-lg-7">
+					<img class="img-fluid mb-3 mb-lg-0" src="<c:url value="/resources/img/portfolio/bg-masthead.jpg" />" alt="">
+				</div>
+				<div id="productDetailsDiv" class="col-xl-4 col-lg-5" style="padding-left: 15px;">
+					<div class="featured-text text-center text-lg-left">
+						<h4>
+						<!-- Product Name goes here -->
+						 
+						</h4>
+						<p class="text-black-50 mb-0" style="border-bottom: 1px solid #E1E8EE;  margin-bottom: 20px;">
+						<!-- Product Details goes here -->
+						
+						</p>
+						<div style="font-family: cursive; color: orangered;">
+			            	<span></span>
+			         	</div>
+			         	<div class="product-price">
+						    <span></span>
+						    <a href="#" class="cart-btn">Add to cart</a>
+					    </div>
+					</div>
+				</div>
+			</div>
 		</div>
-        <div id="products-list" class="row">
-          <!-- List of product will be added here as per category -->
-        </div>
-      </div>
-    </div>
+	</div>
 
 	<!-- Footer -->
     <footer>
@@ -142,11 +172,9 @@
 
   </body>
 	<script>
-	 var productsTemplate = Handlebars.compile(document.getElementById("products").innerHTML);
 	 var prodByCat = [];
  		$(document).ready(function(){
-			console.log("loaded");	        
-	        function getProductByCategory (sParam) {
+	        function getProductByBarCode (sParam) {
 	        	var sPageURL = window.location.search.substring(1);
 	        	    var sURLVariables = sPageURL.split('&');
 	        	    for (var i = 0; i < sURLVariables.length; i++)
@@ -158,34 +186,28 @@
 	        	        }
 	        	    }
 	        }
-	        var categoryName = getProductByCategory("categoryName");
-	        var categoryId = getProductByCategory("categoryId");
-	        $('#portfolio .container').children('div .text-center').append('<h2 class="section-heading text-uppercase">'+decodeURI(categoryName)+'</h2>');
-	        console.log(categoryId);
+	        var barCode = getProductByBarCode("barCode");
+	        
+	        console.log(barCode);
 	        $.ajax({ type: "GET",
        		 contentType: "application/json",
-                url: "/choiceoutlet/products",
+                url: "/choiceoutlet/product/" + barCode,
                 async: false,
                 dataType: 'json',
                 cache: false,
                 timeout: 600000,
                 success : function(data)
-                {
-                categoryName = data;
-               	 var i;
-	                 for(i=0; i<data.length; i++) {
-	                	    if( data[i].cat_id == categoryId) {
-	                	    	prodByCat.push(data[i]);
-	                	    }
-	                	}
-               		 $('#products-list').append(productsTemplate(prodByCat));
-              	 }
+                {	
+                	var a = data;
+                	console.log(a.condition);
+                	$("#productDetailsDiv > div > h4").text(a.product_name);
+                	$("#productDetailsDiv > div > p").text(a.details);
+                	$("#productDetailsDiv > div > div:nth-child(3) > span").text(a.condition);
+                	$("#productDetailsDiv > div > div.product-price > span").text(a.retail_price+"$");
+                	
+              	}
        		});
 		});
-		
-        function toProduct (e, e1) {
-        	var bar_code = $(e).attr("value");
-        	window.location.href='/choiceoutlet/product?barCode='+bar_code;
-        }
+
 </script>
 </html>

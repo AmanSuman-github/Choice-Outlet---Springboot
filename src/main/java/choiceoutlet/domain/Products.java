@@ -20,7 +20,7 @@ public class Products {
 	
 	@Id
 	@Column(name="bar_code", unique=true, nullable=false)
-	int bar_code;
+	Long bar_code;
 	
 	@Column(name="retail_price", nullable=false)
 	BigDecimal retail_price;
@@ -57,7 +57,7 @@ public class Products {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Products(String upc_number, int bar_code, BigDecimal retail_price, BigDecimal cost, BigDecimal extra_cost,
+	public Products(String upc_number, Long bar_code, BigDecimal retail_price, BigDecimal cost, BigDecimal extra_cost,
 			String product_name, String details, String location, String condition, String dimension, int cat_id, int quantity) {
 		super();
 		this.upc_number = upc_number;
@@ -82,11 +82,11 @@ public class Products {
 		this.upc_number = upc_number;
 	}
 
-	public int getBar_code() {
+	public Long getBar_code() {
 		return bar_code;
 	}
 
-	public void setBar_code(int bar_code) {
+	public void setBar_code(Long bar_code) {
 		this.bar_code = bar_code;
 	}
 
