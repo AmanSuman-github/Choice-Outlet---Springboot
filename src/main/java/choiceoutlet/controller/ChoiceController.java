@@ -164,17 +164,33 @@ public class ChoiceController {
 	
 	//Order add/get/update/delete -----------------------------------------------------------------------------------
 	
-	@RequestMapping(value="/order/add", method=RequestMethod.PUT)	
+	@RequestMapping(value="/order/add", method=RequestMethod.PUT)
     @ResponseBody
-	public synchronized  Order addOrder(@Valid @RequestBody Order ord) {
-		return OrderRepo.save(ord);
+	public Order addOrder(@Valid @RequestBody Order order) 
+	{
+		System.out.println(order);
+		return OrderRepo.save(order);
+	
 		
 	}
-	
+
 	@RequestMapping(value="/orders", method=RequestMethod.GET)
     @ResponseBody
 	public List<Order> getAllOrders() {
 		return OrderRepo.findAll();
+	}
+	
+	@RequestMapping(value="/order/{order_id}", method=RequestMethod.GET)
+    @ResponseBody
+	public ResponseEntity<Order> getOrderById(@PathVariable(value="order_id") Long order_id) {
+        
+		Order ord = OrderRepo.findOne(order_id);
+		
+		if(ord == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    	}
+		
+		return ResponseEntity.ok().body(ord);
 	}
 
 	@RequestMapping(value="/order/{order_id}", method=RequestMethod.PUT)
@@ -187,7 +203,7 @@ public class ChoiceController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     	}
 		
-		ord.setDate(orderDetails.getDate());
+		ord.setDate_blocked(orderDetails.getDate_blocked());
 		ord.setOrder_id(orderDetails.getOrder_id());
 		ord.setPlatform(orderDetails.getPlatform());
 		ord.setBuyer_state(orderDetails.getBuyer_state());
@@ -196,6 +212,7 @@ public class ChoiceController {
 		ord.setSales_tax(orderDetails.getSales_tax());
 		ord.setCustomer_name(orderDetails.getCustomer_name());
 		ord.setPhone(orderDetails.getPhone());
+		ord.setEmail(orderDetails.getEmail());
 		ord.setStatus(orderDetails.getStatus());
 		ord.setDelivery_date(orderDetails.getDelivery_date());
 		
@@ -214,6 +231,8 @@ public class ChoiceController {
 		
 		OrderRepo.delete(ord);
 		
+		
+		
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 
@@ -223,7 +242,6 @@ public class ChoiceController {
     @ResponseBody
 	public synchronized  OrderDetails addOrderDetails(@Valid @RequestBody OrderDetails ordDetails) {
 		return OrderDetailsRepo.save(ordDetails);
-		
 	}
 	
 	@RequestMapping(value="/order/details", method=RequestMethod.GET)
@@ -328,4 +346,8 @@ public class ChoiceController {
 	      return "product";
 	   }
 	   
+	   @RequestMapping(value = "/updateOrder", method = RequestMethod.GET)
+	   public String updateOrder() {
+	      return "updateOrder";
+	   }
 }

@@ -16,10 +16,10 @@
 
     <!-- Custom fonts for this template -->
     <link href="<c:url value="/resources/vendor/font-awesome/css/font-awesome.min.css" />" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+    <link href="/resources/fonts/droidSerif.css" rel="stylesheet" type="text/css">
+    <link href='/resources/fonts/kaushanScript.css' rel='stylesheet' type='text/css'>
+    <link href='/resources/fonts/montserrat.css' rel='stylesheet' type='text/css'>
+    <link href='/resources/fonts/roboto slab 400,100.css' rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
     <link href="<c:url value="/resources/css/agency.min.css" />" rel="stylesheet">
