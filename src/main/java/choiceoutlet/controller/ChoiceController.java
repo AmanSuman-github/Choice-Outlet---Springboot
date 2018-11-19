@@ -1,6 +1,5 @@
 package choiceoutlet.controller;
 
-import org.hibernate.annotations.Synchronize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import choiceoutlet.controller.filestorage.FileStorageImpl;
 import choiceoutlet.domain.Categories;
 import choiceoutlet.domain.Products;
 import choiceoutlet.domain.Order;
@@ -21,6 +23,7 @@ import choiceoutlet.repo.CategoriesRepo;
 import choiceoutlet.repo.OrderRepo;
 import choiceoutlet.repo.OrderDetailsRepo;
 import choiceoutlet.repo.InventoryRepo;
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -43,6 +46,9 @@ public class ChoiceController {
 	
 	@Autowired
 	InventoryRepo InventoryRepo;
+	
+	@Autowired 
+	FileStorageImpl fileStorage;
 	
 	//Product add/get/update/delete ------------------------------------------------------------------------------------
 	
@@ -330,6 +336,36 @@ public class ChoiceController {
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
+	//File Upload -----------------------------------------------------------------------------------
+	
+	public static String uploadDirectory = System.getProperty("user.dir")+"/images";
+	
+/*	@RequestMapping(value="/upload", method=RequestMethod.POST)
+	public String UploadImage(Model model, @RequestParam("files") MultipartFile[] files) {
+		StringBuilder fileNames = new StringBuilder();
+		for(MultipartFile file : files) {
+			Path fileNameAndPath = Paths.get(uploadDirectory, file.getOriginalFilename());
+			fileNames.append(file.getOriginalFilename());
+			try {
+				Files.write(fileNameAndPath, file.getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		model.addAttribute("msg", "Successfully Added File");
+		return "File uploaded successfully!";
+	}*/
+	
+	@RequestMapping(value="/upload", method=RequestMethod.POST)
+    public String uploadMultipartFile(@RequestParam("uploadfile") MultipartFile file) {
+    	try {
+    		fileStorage.store(file);
+	    	return "File uploaded successfully! -> filename = " + file.getOriginalFilename();
+		} catch (Exception e) {
+			return "Error -> message = " + e.getMessage();
+		}    
+    }
+	
 	//Page Navigation -----------------------------------------------------------------------------------
 	   @RequestMapping(value = "/", method = RequestMethod.GET)
 	   public String index() {
@@ -349,5 +385,10 @@ public class ChoiceController {
 	   @RequestMapping(value = "/updateOrder", method = RequestMethod.GET)
 	   public String updateOrder() {
 	      return "updateOrder";
+	   }
+	   
+	   @RequestMapping(value = "/updateProduct", method = RequestMethod.GET)
+	   public String updateProduct() {
+	      return "addProducts";
 	   }
 }

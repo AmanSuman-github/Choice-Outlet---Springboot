@@ -517,9 +517,7 @@
  			if ($("#editOrderModelStatusInput").val().toUpperCase() == "DELIVERED") {
  				console.log("Have to add the entry into order details for audit in future.");
  			}
- 		}
- 		
- 		
+ 		}	
  		
  		function deleteTable (e, e1) {
  			deleteOrderId = $(e).attr("value");
