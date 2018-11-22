@@ -6,4 +6,6 @@ import choiceoutlet.domain.Inventory;
 
 public interface InventoryRepo extends JpaRepository<Inventory, Long> {
 
+	Inventory findOne(Long lot_number);
+
 }

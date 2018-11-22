@@ -140,15 +140,10 @@
 		<td>
 
 
-				<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-					<div class="form-group">
-						<label class="control-label" for="uploadfile">Upload File:</label>
-						<input type="file" class="form-control" id="uploadfile" placeholder="Upload File"  name="uploadfile"></input>
-					</div>
-					
-			        <button type="submit" class="btn btn-default" id="btnSubmit">Upload</button>
-			        <button type="button" class="btn btn-default" id="btnGetFiles">Files</button>
-				</form>
+   <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+      <input type="file" name="files" multiple>
+      <input type="submit" value="Upload Files" id="btnSubmit"></input>
+   </form>
 
 
 		</td>
@@ -444,7 +439,8 @@
  			console.log("Inside Ready");
  			loadOrderData();
  			
- 		    $("#btnSubmit").click((event) => {
+ 		    $("#btnSubmit").click((event) => { 
+ 		    	console.log("Button clicked");
  		        //stop submit the form, we will post it manually.
  		        event.preventDefault();
  		        doAjax();
@@ -607,7 +603,7 @@
  	       
  	       
  	     function doAjax() {
- 	    	 
+ 	    	 console.log("DoAjax");
  	    	    // Get form
  	    	    var form = $('#fileUploadForm')[0];
  	    	    var data = new FormData(form);
@@ -621,10 +617,10 @@
  	    	        processData: false, //prevent jQuery from automatically transforming the data into a query string
  	    	        contentType: false,
  	    	        cache: false,
- 	    	       success : function(data) {
+ 	    	        success: (data) => {
  	    	            $("#listFiles").text(data);
  	    	        },
- 	    	       error : function(e) {
+ 	    	        error: (e) => {
  	    	            $("#listFiles").text(e.responseText);
  	    	        }
  	    	    });
