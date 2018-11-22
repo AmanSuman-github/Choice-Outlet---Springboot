@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import choiceoutlet.controller.ChoiceController;
 
 @SpringBootApplication
-/*@ComponentScan({"choiceoutlet","choiceoutlet.controller"})*/
 public class Application {
 
 	public static void main(String[] args) {
