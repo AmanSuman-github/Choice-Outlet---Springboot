@@ -61,7 +61,10 @@ public class Order {
 	Date delivery_date;
 	
 	@Column(name="bar_code", nullable=false)
-	String bar_code;
+	Long bar_code;
+	
+	@Column(name="quantity", nullable=false)
+	int quantity;
 
 	public Order() {
 		super();
@@ -70,7 +73,7 @@ public class Order {
 
 	public Order(Date date_blocked, Long order_id, String platform, String buyer_state, BigDecimal order_price,
 			BigDecimal profit_loss, BigDecimal sales_tax, String customer_name, String phone, String email, String status,
-			Date delivery_date, String bar_code) {
+			Date delivery_date, Long bar_code, int quantity) {
 		super();
 		this.date_blocked = date_blocked;
 		this.order_id = order_id;
@@ -85,6 +88,7 @@ public class Order {
 		this.status = status;
 		this.delivery_date = delivery_date;
 		this.bar_code = bar_code;
+		this.quantity = quantity;
 	}
 
 	public Date getDate_blocked() {
@@ -183,12 +187,20 @@ public class Order {
 		this.delivery_date = delivery_date;
 	}
 
-	public String getBar_code() {
+	public Long getBar_code() {
 		return bar_code;
 	}
 
-	public void setBar_code(String bar_code) {
+	public void setBar_code(Long bar_code) {
 		this.bar_code = bar_code;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
 }
