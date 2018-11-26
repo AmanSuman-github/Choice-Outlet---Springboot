@@ -24,12 +24,22 @@ import choiceoutlet.repo.OrderRepo;
 import choiceoutlet.repo.OrderDetailsRepo;
 import choiceoutlet.repo.InventoryRepo;
 
+import java.util.Date;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Properties;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
 
 @Controller
@@ -114,11 +124,56 @@ public class ChoiceController {
 	public ResponseEntity<Products> getProductByBarCode(@PathVariable(value="bar_code") Long bar_code) throws Exception {
         
 		Products prod = ProductsRepository.findOne((long) Long.valueOf(bar_code));
-		
 		if(prod == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     	}
 		return ResponseEntity.ok().body(prod);
+	}
+	
+	public void sendMail(Order order) {
+		  final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
+		  // Get a Properties object
+		     Properties props = System.getProperties();
+// 			 Below are for gmail		     
+//			 props.setProperty("mail.smtp.host", "smtp.gmail.com");
+//		     props.setProperty("mail.smtp.port", "465");
+//		     props.setProperty("mail.smtp.socketFactory.port", "465");
+//			 props.put("mail.debug", "true");
+//			 props.put("mail.store.protocol", "pop3");
+//			Below are for outlook and few has to be removed while setting up gmail
+	     	 props.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
+	     	 props.setProperty("mail.smtp.socketFactory.fallback", "true");
+	         props.put("mail.smtp.starttls.enable", "true");
+	         props.put("mail.smtp.host", "outlook.office365.com");
+	         props.put("mail.smtp.port", "587");
+		     props.put("mail.smtp.auth", "true");
+		     props.put("mail.transport.protocol", "smtp");
+		     final String username = "niranjan.srungarapu@fintellix.com";
+		     final String password = "November@123";
+		     try{
+		     Session session = Session.getDefaultInstance(props, 
+		                          new Authenticator(){
+		                             protected PasswordAuthentication getPasswordAuthentication() {
+		                                return new PasswordAuthentication(username, password);
+		                             }});
+
+		   // -- Create a new message --
+		     Message msg = new MimeMessage(session);
+
+		  // -- Set the FROM and TO fields --
+		     msg.setFrom(new InternetAddress("niranjan.srungarapu@fintellix.com"));
+		     msg.setRecipients(Message.RecipientType.TO, 
+		                      InternetAddress.parse(order.getEmail()));
+		     msg.setSubject("Regarding Joining Details");
+		     msg.setText("Hi,"
+		     		+ "\nYou can join our company from 28-11-2018 with an annual salary of 30 Lakhs.");
+		     msg.setSentDate(new Date());
+		     Transport.send(msg);
+		     System.out.println("Message sent.");
+		  }catch (MessagingException e){ 
+			  System.out.println("Erroe is " + e);
+		  }		
+
 	}
 	
 	//Category add/get/update/delete -------------------------------------------------------------------------------------
@@ -176,6 +231,10 @@ public class ChoiceController {
 	public Order addOrder(@Valid @RequestBody Order order) 
 	{
 		System.out.println(order);
+		if(order.getEmail()!= null) {
+			sendMail(order);
+		}
+		 
 		return OrderRepo.save(order);
 	
 		
