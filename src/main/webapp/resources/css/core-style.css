@@ -48,18 +48,9 @@ a {
   transition: all 500ms ease 0s;
   text-decoration: none;
   outline: 0 solid transparent;
-  color: #131212;
+  color: #a52a2a;
   font-weight: 400;
-  font-size: 12px; }
-  a:hover, a:focus {
-    -webkit-transition: all 500ms ease 0s;
-    transition: all 500ms ease 0s;
-    text-decoration: none;
-    outline: 0 solid transparent;
-    color: #131212;
-    font-weight: 400;
-    font-size: 12px; }
-
+  font-size: 19px; }
 ul,
 ol {
   margin: 0; }

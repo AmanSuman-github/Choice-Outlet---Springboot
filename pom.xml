@@ -17,6 +17,14 @@
 	</parent>
 
 	<dependencies>
+<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -46,24 +54,13 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j-cypher-compiler-2.1</artifactId>
-			<version>2.1.8</version>
-		</dependency>
 		<dependency>
 			<groupId>org.neo4j</groupId>
 			<artifactId>neo4j-cypher-compiler-2.2</artifactId>
 			<version>2.2.5</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>4.1.7.RELEASE</version>
-		</dependency>
-		
-		
+
+
 	</dependencies>
 	<build>
 		<plugins>

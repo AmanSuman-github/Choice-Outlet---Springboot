@@ -5,6 +5,5 @@ import choiceoutlet.domain.Products;
 
 public interface ProductsRepository extends JpaRepository<Products, Long> {
 
-	Products findOne(long valueOf);
 	
 }

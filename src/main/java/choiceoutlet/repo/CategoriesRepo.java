@@ -8,6 +8,4 @@ import choiceoutlet.domain.Categories;
 public interface CategoriesRepo extends JpaRepository<Categories, Long> {
 	
 	<S extends Categories> List<S> save(Iterable<S> entities);
-
-	Categories findOne(Long cat_id);
 }
